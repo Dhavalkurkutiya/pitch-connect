@@ -10,7 +10,7 @@ export default async function Home({
   const posts = await [
     {
       _createdAt: new Date(),
-      views: 1505478,
+      views: 15068,
       author: {
         _id: 1,
         name: "DhavalKurkutiya",
