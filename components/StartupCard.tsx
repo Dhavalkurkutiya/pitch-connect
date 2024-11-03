@@ -17,13 +17,23 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
     _id,
     description,
   } = post;
+
+  const formatViews = (views: number) => {
+    if (views >= 1000000) {
+      return `${(views / 1000000).toFixed(1)}M`;
+    } else if (views >= 1000) {
+      return `${(views / 1000).toFixed(1)}K`;
+    }
+    return views.toString();
+  };
+
   return (
     <li className="startup-card group">
       <div className="flex-between">
         <p className="startup_card_date">{formatDate(_createdAt)}</p>
         <div className="flex gap-1.5">
           <EyeIcon className="size-6 text-primary" />
-          <span className="text-16-medium">{views}</span>
+          <span className="text-16-medium">{formatViews(views)}</span>
         </div>
       </div>
 
