@@ -21,7 +21,6 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
     image,
     description,
   } = post;
-  console.log();
   return (
     <li className="startup-card group">
       <div className="flex-between">
