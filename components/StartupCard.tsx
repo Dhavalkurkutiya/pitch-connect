@@ -21,14 +21,14 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
     image,
     description,
   } = post;
-
+  console.log();
   return (
     <li className="startup-card group">
       <div className="flex-between">
         <p className="startup_card_date">{formatDate(_createdAt)}</p>
         <div className="flex gap-1.5">
           <EyeIcon className="size-6 text-primary" />
-          <span className="text-16-medium">{views}</span>
+          <span className="text-16-medium">{formatViews(views || 0)}</span>
         </div>
       </div>
 
@@ -60,7 +60,7 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
 
       <div className="flex-between gap-3 mt-5">
         <Link href={`/?query=${category?.toLowerCase()}`}>
-          <p className="text-16-medium">{category}</p>
+          <p className="text-16-medium">{category || "Uncategorized"}</p>
         </Link>
         <Button className="startup-card_btn" asChild>
           <Link href={`/startup/${_id}`}>Details</Link>
