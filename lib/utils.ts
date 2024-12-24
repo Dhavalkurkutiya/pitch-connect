@@ -13,6 +13,11 @@ export function formatDate(date: string) {
   });
 }
 
+export function parseServerActionResponse<T>(response: T) {
+  return JSON.parse(JSON.stringify(response));
+}
+
+
 export function formatViews(views: number) {
   if (!views || isNaN(views) || views < 0) return '0'; // Returns '0' if views is 0, NaN, or negative.
 
