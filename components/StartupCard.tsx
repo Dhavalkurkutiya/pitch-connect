@@ -1,14 +1,12 @@
-import { formatDate, formatViews } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import { EyeIcon } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-import { Button } from "./ui/button";
-import { Startup, Author } from "@/sanity/types";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Author, Startup } from "@/sanity/types";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export type StartupTypeCard = Omit<Startup, "author"> & {
-  author?: Author;
-};
+export type StartupTypeCard = Omit<Startup, "author"> & { author?: Author };
 
 const StartupCard = ({ post }: { post: StartupTypeCard }) => {
   const {
@@ -21,13 +19,14 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
     image,
     description,
   } = post;
+
   return (
     <li className="startup-card group">
       <div className="flex-between">
         <p className="startup_card_date">{formatDate(_createdAt)}</p>
         <div className="flex gap-1.5">
           <EyeIcon className="size-6 text-primary" />
-          <span className="text-16-medium">{formatViews(views || 0)}</span>
+          <span className="text-16-medium">{views}</span>
         </div>
       </div>
 
@@ -40,11 +39,10 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
             <h3 className="text-26-semibold line-clamp-1">{title}</h3>
           </Link>
         </div>
-
-        <Link href={`/user/${_id}`}>
+        <Link href={`/user/${author?._id}`}>
           <Image
-            src={image || ""}
-            alt="placeholder"
+            src={author?.image!}
+            alt={author?.name!}
             width={48}
             height={48}
             className="rounded-full"
@@ -54,12 +52,13 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
 
       <Link href={`/startup/${_id}`}>
         <p className="startup-card_desc">{description}</p>
-        <img src="https://plus.unsplash.com/premium_photo-1684769161054-2fa9a998dcb6?q=80&w=1808&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="placeholder" className="startup-card_img" />
+
+        <img src={image} alt="placeholder" className="startup-card_img" />
       </Link>
 
       <div className="flex-between gap-3 mt-5">
         <Link href={`/?query=${category?.toLowerCase()}`}>
-          <p className="text-16-medium">{category || "Uncategorized"}</p>
+          <p className="text-16-medium">{category}</p>
         </Link>
         <Button className="startup-card_btn" asChild>
           <Link href={`/startup/${_id}`}>Details</Link>
@@ -68,5 +67,15 @@ const StartupCard = ({ post }: { post: StartupTypeCard }) => {
     </li>
   );
 };
+
+export const StartupCardSkeleton = () => (
+  <>
+    {[0, 1, 2, 3, 4].map((index: number) => (
+      <li key={cn("skeleton", index)}>
+        <Skeleton className="startup-card_skeleton" />
+      </li>
+    ))}
+  </>
+);
 
 export default StartupCard;
