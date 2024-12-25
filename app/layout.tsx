@@ -55,8 +55,8 @@ const workSans = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "YC Directory",
-  description: "Pitch, Vote, and Grow",
+  title: "PitchConnect | Entrepreneurs' Networking Platform",
+  description: "PitchConnect is a dynamic platform for entrepreneurs to showcase startup ideas, network with innovators, and participate in virtual competitions. Empower your entrepreneurial journey with collaboration and growth opportunities",
 };
 
 export default function RootLayout({
