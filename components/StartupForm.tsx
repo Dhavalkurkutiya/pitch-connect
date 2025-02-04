@@ -160,7 +160,7 @@ const StartupForm = () => {
         <div className="flex justify-center">
           <Button
             type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-lg flex items-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="startup-form_btn text-white"
             disabled={isPending}
           >
             {isPending ? (
