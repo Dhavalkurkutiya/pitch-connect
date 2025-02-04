@@ -5,12 +5,14 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import MDEditor from "@uiw/react-md-editor";
 import { Button } from "@/components/ui/button";
-import { Send } from "lucide-react";
+import { Send, SpaceIcon } from "lucide-react";
 import { formSchema } from "@/lib/validation";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { createPitch } from "@/lib/actions";
+import { Card } from "./ui/card";
+import { Label } from "./ui/label";
 
 const StartupForm = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -77,105 +79,146 @@ const StartupForm = () => {
   });
 
   return (
-    <form action={formAction} className="startup-form">
-      <div>
-        <label htmlFor="title" className="startup-form_label">
-          Title
-        </label>
-        <Input
-          id="title"
-          name="title"
-          className="startup-form_input"
-          required
-          placeholder="Startup Title"
-        />
-
-        {errors.title && <p className="startup-form_error">{errors.title}</p>}
+    <Card className="max-w-3xl mx-auto p-6 space-y-6 mt-4">
+      <div className="space-y-2">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-50">
+          Submit Your Startup
+        </h1>
+        <p className="text-gray-600 dark:text-gray-400">
+          Share your innovative idea with the community
+        </p>
       </div>
 
-      <div>
-        <label htmlFor="description" className="startup-form_label">
-          Description
-        </label>
-        <Textarea
-          id="description"
-          name="description"
-          className="startup-form_textarea"
-          required
-          placeholder="Startup Description"
-        />
+      <form action={formAction} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-2">
+            <Label htmlFor="title" className="text-gray-700">
+              Title
+            </Label>
+            <Input
+              id="title"
+              name="title"
+              className="focus:ring-2 focus:ring-blue-500"
+              required
+              placeholder="Startup Title"
+              aria-describedby="title-error"
+            />
+            {errors.title && (
+              <p id="title-error" className="text-red-600 text-sm mt-1">
+                {errors.title}
+              </p>
+            )}
+          </div>
 
-        {errors.description && (
-          <p className="startup-form_error">{errors.description}</p>
-        )}
-      </div>
+          <div className="space-y-2">
+            <Label htmlFor="category" className="text-gray-700">
+              Category
+            </Label>
+            <Input
+              id="category"
+              name="category"
+              className="focus:ring-2 focus:ring-blue-500"
+              required
+              placeholder="Tech, Health, Education..."
+              aria-describedby="category-error"
+            />
+            {errors.category && (
+              <p id="category-error" className="text-red-600 text-sm mt-1">
+                {errors.category}
+              </p>
+            )}
+          </div>
+        </div>
 
-      <div>
-        <label htmlFor="category" className="startup-form_label">
-          Category
-        </label>
-        <Input
-          id="category"
-          name="category"
-          className="startup-form_input"
-          required
-          placeholder="Startup Category (Tech, Health, Education...)"
-        />
+        <div className="space-y-2">
+          <Label htmlFor="description" className="text-gray-700">
+            Description
+          </Label>
+          <Textarea
+            id="description"
+            name="description"
+            className="min-h-[100px] focus:ring-2 focus:ring-blue-500"
+            required
+            placeholder="Brief description of your startup"
+            aria-describedby="description-error"
+          />
+          {errors.description && (
+            <p id="description-error" className="text-red-600 text-sm mt-1">
+              {errors.description}
+            </p>
+          )}
+        </div>
 
-        {errors.category && (
-          <p className="startup-form_error">{errors.category}</p>
-        )}
-      </div>
+        <div className="space-y-2">
+          <Label htmlFor="link" className="text-gray-700">
+            Image URL
+          </Label>
+          <Input
+            id="link"
+            name="link"
+            className="focus:ring-2 focus:ring-blue-500"
+            required
+            placeholder="https://example.com/image.jpg"
+            aria-describedby="link-error"
+          />
+          {errors.link && (
+            <p id="link-error" className="text-red-600 text-sm mt-1">
+              {errors.link}
+            </p>
+          )}
+        </div>
 
-      <div>
-        <label htmlFor="link" className="startup-form_label">
-          Image URL
-        </label>
-        <Input
-          id="link"
-          name="link"
-          className="startup-form_input"
-          required
-          placeholder="Startup Image URL"
-        />
+        <div className="space-y-2">
+          <Label htmlFor="pitch" className="text-gray-700">
+            Pitch
+          </Label>
+          <div className="border rounded-lg overflow-hidden shadow-sm focus-within:ring-2 focus-within:ring-blue-500">
+            <MDEditor
+              value={pitch}
+              onChange={(value) => setPitch(value as string)}
+              id="pitch"
+              preview="edit"
+              height={300}
+              style={{ borderRadius: 0 }}
+              textareaProps={{
+                "aria-describedby": "pitch-error",
+                placeholder: "Explain your idea, target market, and unique value proposition...",
+              }}
+              previewOptions={{
+                disallowedElements: ["style"],
+              }}
+            />
+          </div>
+          {errors.pitch && (
+            <p id="pitch-error" className="text-red-600 text-sm mt-1">
+              {errors.pitch}
+            </p>
+          )}
+        </div>
 
-        {errors.link && <p className="startup-form_error">{errors.link}</p>}
-      </div>
+        <div className="flex justify-end">
+          <Button
+            type="submit"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-lg flex items-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={isPending}
+            aria-busy={isPending}
+          >
+            {isPending ? (
+              <>
+                <SpaceIcon className="h-5 w-5 animate-spin" />
+                <span>Submitting...</span>
+              </>
+            ) : (
+              <>
+                <span>Submit Pitch</span>
+                <Send className="h-5 w-5" />
+              </>
+            )}
+          </Button>
 
-      <div data-color-mode="light">
-        <label htmlFor="pitch" className="startup-form_label">
-          Pitch
-        </label>
-
-        <MDEditor
-          value={pitch}
-          onChange={(value) => setPitch(value as string)}
-          id="pitch"
-          preview="edit"
-          height={300}
-          style={{ borderRadius: 20, overflow: "hidden" }}
-          textareaProps={{
-            placeholder:
-              "Briefly describe your idea and what problem it solves",
-          }}
-          previewOptions={{
-            disallowedElements: ["style"],
-          }}
-        />
-
-        {errors.pitch && <p className="startup-form_error">{errors.pitch}</p>}
-      </div>
-
-      <Button
-        type="submit"
-        className="startup-form_btn text-white"
-        disabled={isPending}
-      >
-        {isPending ? "Submitting..." : "Submit Your Pitch"}
-        <Send className="size-6 ml-2" />
-      </Button>
-    </form>
+        </div>
+      </form>
+    </Card>
   );
 };
-
 export default StartupForm;
