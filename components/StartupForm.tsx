@@ -46,9 +46,8 @@ const StartupForm = () => {
       return result;
     } catch (error) {
       if (error instanceof z.ZodError) {
-        const fieldErorrs = error.flatten().fieldErrors;
-
-        setErrors(fieldErorrs as unknown as Record<string, string>);
+        const fieldErrors = error.flatten().fieldErrors;
+        setErrors(fieldErrors as unknown as Record<string, string>);
 
         toast({
           title: "Error",
@@ -79,129 +78,90 @@ const StartupForm = () => {
   });
 
   return (
-    <Card className="max-w-3xl mx-auto p-6 space-y-6 mt-4">
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-50">
+    <Card className="max-w-4xl mx-auto p-6 space-y-6 mt-4 w-full md:w-[90%] lg:w-[80%]">
+      <div className="space-y-2 text-center">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-50">
           Submit Your Startup
         </h1>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-gray-600 dark:text-gray-400 text-sm md:text-base">
           Share your innovative idea with the community
         </p>
       </div>
 
       <form action={formAction} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="title" className="text-gray-700">
-              Title
-            </Label>
+            <Label htmlFor="title">Title</Label>
             <Input
               id="title"
               name="title"
-              className="focus:ring-2 focus:ring-blue-500"
+              className="w-full focus:ring-2 focus:ring-blue-500"
               required
               placeholder="Startup Title"
-              aria-describedby="title-error"
             />
-            {errors.title && (
-              <p id="title-error" className="text-red-600 text-sm mt-1">
-                {errors.title}
-              </p>
-            )}
+            {errors.title && <p className="text-red-600 text-sm">{errors.title}</p>}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="category" className="text-gray-700">
-              Category
-            </Label>
+            <Label htmlFor="category">Category</Label>
             <Input
               id="category"
               name="category"
-              className="focus:ring-2 focus:ring-blue-500"
+              className="w-full focus:ring-2 focus:ring-blue-500"
               required
               placeholder="Tech, Health, Education..."
-              aria-describedby="category-error"
             />
-            {errors.category && (
-              <p id="category-error" className="text-red-600 text-sm mt-1">
-                {errors.category}
-              </p>
-            )}
+            {errors.category && <p className="text-red-600 text-sm">{errors.category}</p>}
           </div>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="description" className="text-gray-700">
-            Description
-          </Label>
+          <Label htmlFor="description">Description</Label>
           <Textarea
             id="description"
             name="description"
-            className="min-h-[100px] focus:ring-2 focus:ring-blue-500"
+            className="w-full min-h-[100px] focus:ring-2 focus:ring-blue-500"
             required
             placeholder="Brief description of your startup"
-            aria-describedby="description-error"
           />
-          {errors.description && (
-            <p id="description-error" className="text-red-600 text-sm mt-1">
-              {errors.description}
-            </p>
-          )}
+          {errors.description && <p className="text-red-600 text-sm">{errors.description}</p>}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="link" className="text-gray-700">
-            Image URL
-          </Label>
+          <Label htmlFor="link">Image URL</Label>
           <Input
             id="link"
             name="link"
-            className="focus:ring-2 focus:ring-blue-500"
+            className="w-full focus:ring-2 focus:ring-blue-500"
             required
             placeholder="https://example.com/image.jpg"
-            aria-describedby="link-error"
           />
-          {errors.link && (
-            <p id="link-error" className="text-red-600 text-sm mt-1">
-              {errors.link}
-            </p>
-          )}
+          {errors.link && <p className="text-red-600 text-sm">{errors.link}</p>}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="pitch" className="text-gray-700">
-            Pitch
-          </Label>
+          <Label htmlFor="pitch">Pitch</Label>
           <div className="border rounded-lg overflow-hidden shadow-sm focus-within:ring-2 focus-within:ring-blue-500">
             <MDEditor
               value={pitch}
               onChange={(value) => setPitch(value as string)}
               id="pitch"
               preview="edit"
-              height={300}
+              height={250}
               style={{ borderRadius: 0 }}
               textareaProps={{
-                "aria-describedby": "pitch-error",
                 placeholder: "Explain your idea, target market, and unique value proposition...",
-              }}
-              previewOptions={{
-                disallowedElements: ["style"],
               }}
             />
           </div>
-          {errors.pitch && (
-            <p id="pitch-error" className="text-red-600 text-sm mt-1">
-              {errors.pitch}
-            </p>
-          )}
+          {errors.pitch && <p className="text-red-600 text-sm">{errors.pitch}</p>}
         </div>
 
-        <div className="flex justify-end">
+        <div className="flex justify-center">
           <Button
             type="submit"
             className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-lg flex items-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={isPending}
-            aria-busy={isPending}
           >
             {isPending ? (
               <>
@@ -215,10 +175,10 @@ const StartupForm = () => {
               </>
             )}
           </Button>
-
         </div>
       </form>
     </Card>
   );
 };
+
 export default StartupForm;
