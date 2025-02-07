@@ -13,7 +13,6 @@ export default function Loading() {
   
         {/* Card Section Skeleton */}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-xl">
-          <h1 className="text-2xl font-bold mb-4 text-center sm:text-left">All Startups</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             {[...Array(6)].map((_, i) => (
               <div key={i} className="animate-pulse bg-white rounded-lg shadow-md p-4 w-full max-w-xs mx-auto sm:mx-0">
