@@ -219,3 +219,34 @@
 .w-md-editor-toolbar {
   padding: 10px !important;
 }
+
+/* Modern slim scrollbar */
+.scrollbar-thin {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+}
+
+/* Custom scrolling indicator that only appears when scrolling */
+.scrollbar-thin {
+  position: relative;
+}
+
+.scrollbar-thin:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: transparent;
+  pointer-events: none;
+}
+
+.scrollbar-thin:active:after {
+  background: rgb(238, 43, 105);
+  transition: background 0.3s ease;
+}
