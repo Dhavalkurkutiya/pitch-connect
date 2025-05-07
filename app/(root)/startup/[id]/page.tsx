@@ -44,12 +44,22 @@ const Page = async ({ params }: { params: Promise<{ id: string }> }) => {
       </section>
 
       <section className="section_container">
-        <img
+        <Image 
           src={post.image}
+          width={1920}
+          height={1080}
           alt="thumbnail"
-          className="w-full h-auto rounded-xl"
+          className="w-full h-auto rounded-xl object-cover
+            sm:max-h-[300px]
+            md:max-h-[400px] 
+            lg:max-h-[450px]
+            xl:max-h-[500px]
+            2xl:max-h-[550px]"
+          priority
+          quality={100}
+          placeholder="blur"
+          blurDataURL={post.image}
         />
-
         <div className="space-y-5 mt-10 max-w-4xl mx-auto">
           <div className="flex-between gap-5">
             <Link
